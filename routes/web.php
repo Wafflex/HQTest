@@ -16,4 +16,4 @@ Route::get('/', function () {
 });
 
 
-Route::resource('cookies', 'CookieController');
+Route::resource('cookies', 'CookiesController');
