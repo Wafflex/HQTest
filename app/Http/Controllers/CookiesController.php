@@ -14,7 +14,9 @@ class CookiesController extends Controller
      */
     public function index()
     {
-        return view('cookies.index');
+        $cookies = Cookie::all();
+
+        return view('cookies.index', compact('cookies'));
     }
 
     /**
@@ -35,7 +37,18 @@ class CookiesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'cookie_name' => 'required|min:6|max:20',
+            'cookie_description' => 'required|min:6|max:60',
+        ]);
+        
+        $cookie = new Cookie([
+            'name' => $request->get('cookie_name'),
+            'description'=> $request->get('cookie_description'),
+        ]);
+
+        $cookie->save();
+        return redirect('/cookies')->with('success', 'Cookie has been added');
     }
 
     /**
