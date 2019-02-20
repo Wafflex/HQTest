@@ -12,6 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('crud');
+    return "Welcome to the nothingness";
 });
 
+
+Route::resource('cookies', 'CookieController');
