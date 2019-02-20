@@ -70,7 +70,9 @@ class CookiesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cookie = Cookie::find($id);
+
+        return view('cookies.edit', compact('cookie'));
     }
 
     /**
@@ -82,7 +84,18 @@ class CookiesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'cookie_name' => 'required|min:6|max:20',
+            'cookie_description' => 'required|min:6|max:60',
+        ]);
+
+        Cookie::whereId($id) // I prefer to use update instead find, after save, because with this i touch the database once
+        ->update([
+            'name' => $request->get('cookie_name'),
+            'description' => $request->get('cookie_description')
+        ]);
+    
+        return redirect('/cookies')->with('success', 'Cookie has been updated');
     }
 
     /**
@@ -93,6 +106,9 @@ class CookiesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cookie = Cookie::find($id);
+        $cookie->delete();
+
+        return redirect('/cookies')->with('success', 'Cookie has been deleted Successfully');
     }
 }
