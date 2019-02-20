@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('cookies:spam')
-                   ->daily();
+                   ->hourly();
     }
 
     /**
