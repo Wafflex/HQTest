@@ -30,6 +30,10 @@
               <label for="price">Description:</label>
               <input type="text" class="form-control" name="cookie_description"/>
           </div>
+          <div class="form-group">
+              <label for="price">Email to notificate:</label>
+              <input type="text" class="form-control" name="email"/>
+          </div>
 
           <button type="submit" class="btn btn-primary">Add</button>
       </form>

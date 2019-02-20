@@ -31,6 +31,10 @@
           <label for="price">Cookie Price :</label>
           <input type="text" class="form-control" name="cookie_description" value={{ $cookie->description }} />
         </div>
+        <div class="form-group">
+          <label for="price">Email to notificate :</label>
+          <input type="text" class="form-control" name="email" value={{ $cookie->email }} />
+        </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
   </div>

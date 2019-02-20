@@ -18,15 +18,18 @@
           <td>ID</td>
           <td>Cookie Name</td>
           <td>Cookie Description</td>
+          <td>Notification email</td>
           <td colspan="2">Action</td>
         </tr>
     </thead>
     <tbody>
+        <a class="btn btn-primary" href="{{ route('cookies.create')}}">Create</a>
         @foreach($cookies as $cookie)
         <tr>
             <td>{{$cookie->id}}</td>
             <td>{{$cookie->name}}</td>
             <td>{{$cookie->description}}</td>
+            <td>{{$cookie->email}}</td>
             <td><a href="{{ route('cookies.edit',$cookie->id)}}" class="btn btn-primary">Edit</a></td>
             <td>
                 <form action="{{ route('cookies.destroy', $cookie->id)}}" method="post">

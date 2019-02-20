@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Cookie;
+use App\Notifications\CookieCreated;
+use App\Notifications\CookieUpdated;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CookiesController extends Controller
 {
@@ -40,14 +44,19 @@ class CookiesController extends Controller
         $request->validate([
             'cookie_name' => 'required|min:6|max:20',
             'cookie_description' => 'required|min:6|max:60',
+            'email' => 'unique:cookies,email|required|email'
         ]);
         
         $cookie = new Cookie([
             'name' => $request->get('cookie_name'),
             'description'=> $request->get('cookie_description'),
+            'email' => $request->get('email')
         ]);
 
         $cookie->save();
+
+        $cookie->notify(new CookieCreated());
+
         return redirect('/cookies')->with('success', 'Cookie has been added');
     }
 
@@ -86,14 +95,16 @@ class CookiesController extends Controller
     {
         $request->validate([
             'cookie_name' => 'required|min:6|max:20',
-            'cookie_description' => 'required|min:6|max:60',
+            'cookie_description' => 'required|min:6|max:60'
         ]);
 
-        Cookie::whereId($id) // I prefer to use update instead find, after save, because with this i touch the database once
-        ->update([
-            'name' => $request->get('cookie_name'),
-            'description' => $request->get('cookie_description')
-        ]);
+        $cookie = Cookie::find($id);
+
+        $cookie->name = $request->get('cookie_name');
+        $cookie->description = $request->get('cookie_description');
+        $cookie->save();
+        
+        $cookie->notify(new CookieUpdated());
     
         return redirect('/cookies')->with('success', 'Cookie has been updated');
     }
